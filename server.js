@@ -3,9 +3,34 @@ const morgan = require("morgan");
 
 const hostname = "localhost";
 const port = 3000;
-const app = express();
 
+const app = express();
 app.use(morgan("dev"));
+app.use(express.json());
+
+app.all("/campsites", (req, res, next) => {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    next();
+});
+
+app.get("/campsites", (req, res) => {
+    res.end("Will send all the campsites to you");
+});
+
+app.post("/campsites", (req, res) => {
+    res.end(`Will add the campsite ${req.body.name} with description: ${req.body.description}`);
+});
+
+app.put("/campsites/:campsiteId", (req, res) => {
+    res.write(`Updating the campsite: ${req.params.campsiteId}\n`);
+    res.end(`Will update the campsite: ${req.body.name}
+        with description: ${req.body.description}`);
+});
+
+app.delete("/campsites/:campsiteId", (req, res) => {
+    res.end(`Deleting campsite: ${req.params.campsiteId}`);
+});
 
 app.use(express.static(__dirname + "/public"));
 

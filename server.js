@@ -1,6 +1,9 @@
 const express = require("express"); // web framework
 const morgan = require("morgan"); // logging middleware
+
 const campsiteRouter = require("./routes/campsiteRouter");
+const promotionRouter = require("./routes/promotionRouter");
+const partnerRouter = require("./routes/partnerRouter");
 
 // server config
 const hostname = "localhost";
@@ -14,8 +17,10 @@ app.use(express.json()); // parses json bodies
 
 // any request starting with /campsites gets passed to campsiteRouter
 app.use("/campsites", campsiteRouter);
+app.use("/promotions", promotionRouter);
+app.use("/partners", partnerRouter);
 
-/* manual route handlers - moved to campsiteRouter
+/* how to do manual route handlers 
 
 app.all("/campsites", (req, res, next) => {
     res.statusCode = 200;
@@ -27,19 +32,7 @@ app.get("/campsites", (req, res) => {
     res.end("Will send all the campsites to you");
 });
 
-app.post("/campsites", (req, res) => {
-    res.end(`Will add the campsite ${req.body.name} with description: ${req.body.description}`);
-});
-
-app.put("/campsites/:campsiteId", (req, res) => {
-    res.write(`Updating the campsite: ${req.params.campsiteId}\n`);
-    res.end(`Will update the campsite: ${req.body.name}
-        with description: ${req.body.description}`);
-});
-
-app.delete("/campsites/:campsiteId", (req, res) => {
-    res.end(`Deleting campsite: ${req.params.campsiteId}`);
-}); */
+*/
 
 // tells express "if the request matches a file in /public, serve that file"
 app.use(express.static(__dirname + "/public"));
